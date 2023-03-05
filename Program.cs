@@ -1,41 +1,64 @@
-﻿internal class Program
+using System;
+
+
+struct Student
 {
-    private static void Main(string[] args)
+    public string name; 
+    public string group; 
+    public int[] grades;
+
+    public double GetAverageValue()
     {
-        
-        Console.WriteLine("Введите размерность массива;");
-        int n = Convert.ToInt32(Console.ReadLine());
-        int[] b = new int[n];
-        Console.WriteLine("Введите все числа массива(целочисленные)");
-        for (int i = 0; i < n; i++)
+        double sum = 0;
+        for (int i = 0; i < grades.Length; i++)
         {
-            b[i]= Convert.ToInt32(Console.ReadLine());
+            sum += grades[i];
         }
-        
-        for (int i = 1; i < b.Length ; i++)
-        {
-            int k = b[i];
-            int j = i - 1;
+        return sum/grades.Length;
+    }
+}
 
-            while (j >= 0 && b[j] > k)
-            {
-                b[j + 1] = b[j];
-                b[j] = k;
-                j--;
-            }
+class Program
+{
+    static void Main(string[] args)
+    {
+        Student[] students = new Student[7];
+
+        students[0] = new Student { name = "Carrey Jim", group = "20it2000", grades = new int[5]};
+        students[1] = new Student { name = "Dantes Admon", group = "20it4090", grades = new int[5]};
+        students[2] = new Student { name = "Ford Harrison", group = "20it1800", grades = new int[5]};
+        students[3] = new Student { name = "Celentano Adriano", group = "20it9001", grades = new int[5]};
+        students[4] = new Student { name = "Darcy Fitzwilliam", group = "20it50000000", grades = new int[5]};
+        students[5] = new Student { name = "Cumberbatch Benedict Timothy Carlton", group = "20it01010101", grades = new int[5]};
+        students[6] = new Student { name = "McAvoy James", group = "20it92", grades = new int[5]};
+        for (int y = 0; y < 7; y++)
+        {
+            students[y].grades = randomgGrades();
         }
 
-        Console.WriteLine("Результат:");
-        for (int i = 0; i < b.Length; i++)
+
+
+
+        Array.Sort(students, (a, b) => a.GetAverageValue().CompareTo(b.GetAverageValue()));
+        foreach (Student student in students)
         {
-            if (i == b.Length - 1)
-            {
-                Console.Write(b[i]);
-            }
-            else
-            {
-                Console.Write(b[i] + ", ");
-            }
+            Console.WriteLine($"Name: {student.name}, Group: {student.group}, Average grades: {student.GetAverageValue()}, {strValOfArr(student.grades)}");
         }
+    }
+    public static string strValOfArr(int[] a)
+    {
+        string grades = "Grades: ";
+        grades += String.Join(" ", a);
+        return grades;
+    }
+    public static int[] randomgGrades()
+    {
+        Random rand = new Random();
+        int[] grades = new int[5];
+        for (int i = 0; i < 5; i++)
+        {
+            grades[i] = rand.Next(2, 6);
+        }
+        return grades;
     }
 }
